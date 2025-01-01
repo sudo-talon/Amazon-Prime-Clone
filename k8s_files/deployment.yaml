@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taloncloud-app
+  labels:
+    app: taloncloud-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: taloncloud-app
+  template:
+    metadata:
+      labels:
+        app: taloncloud-app
+    spec:
+      containers:
+      - name: taloncloud-container
+        image: 156041413269.dkr.ecr.us-east-1.amazonaws.com/amazon-prime:latest
+        ports:
+        - containerPort: 3000
+...
