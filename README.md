@@ -1,75 +1,89 @@
-Amazon Prime Clone Deployment Project
-Pipeline Overview
+# Amazon Prime Clone Deployment Project
+![Pipeline Overview](./src/Overview.png)
 
-Project Overview
+## Project Overview
 This project demonstrates deploying an Amazon Prime clone using a set of DevOps tools and practices. The primary tools include:
 
-Terraform: Infrastructure as Code (IaC) tool to create AWS infrastructure such as EC2 instances and EKS clusters.
-GitHub: Source code management.
-Jenkins: CI/CD automation tool.
-SonarQube: Code quality analysis and quality gate tool.
-NPM: Build tool for NodeJS.
-Aqua Trivy: Security vulnerability scanner.
-Docker: Containerization tool to create images.
-AWS ECR: Repository to store Docker images.
-AWS EKS: Container management platform.
-ArgoCD: Continuous deployment tool.
-Prometheus & Grafana: Monitoring and alerting tools.
-Pre-requisites
-AWS Account: Ensure you have an AWS account. Create an AWS Account
-AWS CLI: Install AWS CLI on your local machine. AWS CLI Installation Guide
-VS Code (Optional): Download and install VS Code as a code editor. VS Code Download
-Install Terraform in Windows: Download and install Terraform in Windows Terraform in Windows
-Configuration
-AWS Setup
-IAM User: Create an IAM user and generate the access and secret keys to configure your machine with AWS.
-Key Pair: Create a key pair named key for accessing your EC2 instances.
-Infrastructure Setup Using Terraform
-Clone the Repository (Open Command Prompt & run below):
-git clone https://github.com/pandacloud1/DevopsProject2.git
-cd DevopsProject2
-code .   # this command will open VS code in backend
-Initialize and Apply Terraform:
-Run the below commands to reduce the path displayed in VS Code terminal (Optional)
-code $PROFILE
-function prompt {"$PWD > "}
-function prompt {$(Get-Location -Leaf) + " > "}
-Open terraform_code/ec2_server/main.tf in VS Code.
-Run the following commands:
-aws configure
-terraform init
-terraform apply --auto-approve
+- **Terraform**: Infrastructure as Code (IaC) tool to create AWS infrastructure such as EC2 instances and EKS clusters.
+- **GitHub**: Source code management.
+- **Jenkins**: CI/CD automation tool.
+- **SonarQube**: Code quality analysis and quality gate tool.
+- **NPM**: Build tool for NodeJS.
+- **Aqua Trivy**: Security vulnerability scanner to ensure ISO 27001 compliance.
+- **Docker**: Containerization tool to create images.
+- **AWS ECR**: Repository to store Docker images.
+- **AWS EKS**: Container management platform.
+- **ArgoCD**: Continuous deployment tool.
+- **Prometheus & Grafana**: Monitoring and alerting tools.
+
+## Pre-requisites
+1. **AWS Account**: Ensure you have an AWS account. [Create an AWS Account](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html)
+2. **AWS CLI**: Install AWS CLI on your local machine. [AWS CLI Installation Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+3. **VS Code (Optional)**: Download and install VS Code as a code editor. [VS Code Download](https://code.visualstudio.com/download)
+4. **Install Terraform in Windows**: Download and install Terraform in Windows [Terraform in Windows](https://learn.microsoft.com/en-us/azure/developer/terraform/get-started-windows-bash)
+
+## Configuration
+### AWS Setup
+1. **IAM User**: Create an IAM user and generate the access and secret keys to configure your machine with AWS.
+2. **Key Pair**: Create a key pair named `key` for accessing your EC2 instances.
+
+## Infrastructure Setup Using Terraform
+1. **Clone the Repository** (Open Command Prompt & run below):
+   ```bash
+   git clone https://github.com/sudo-talon/Amazon-Prime-Clone.git
+   cd Amazon Prime Clone
+   code .   # this command will open VS code in backend
+   ```
+2. **Initialize and Apply Terraform**:
+   - Run the below commands to reduce the path displayed in VS Code terminal (Optional)
+     ```bash
+     code $PROFILE
+     function prompt {"$PWD > "}
+     function prompt {$(Get-Location -Leaf) + " > "}
+     ```
+   - Open `terraform_code/ec2_server/main.tf` in VS Code.
+   - Run the following commands:
+     ```bash
+     aws configure
+     terraform init
+     terraform apply --auto-approve
+     ```
+
 This will create the EC2 instance, security groups, and install necessary tools like Jenkins, Docker, SonarQube, etc.
 
-SonarQube Configuration
-Login Credentials: Use admin for both username and password.
-Generate SonarQube Token:
-Create a token under Administration → Security → Users → Tokens.
-Save the token for integration with Jenkins.
-Jenkins Configuration
-Add Jenkins Credentials:
+## SonarQube Configuration
+1. **Login Credentials**: Use `admin` for both username and password.
+2. **Generate SonarQube Token**:
+   - Create a token under `Administration → Security → Users → Tokens`.
+   - Save the token for integration with Jenkins.
 
-Add the SonarQube token, AWS access key, and secret key in Manage Jenkins → Credentials → System → Global credentials.
-Install Required Plugins:
+## Jenkins Configuration
+1. **Add Jenkins Credentials**:
+   - Add the SonarQube token, AWS access key, and secret key in `Manage Jenkins → Credentials → System → Global credentials`.
+2. **Install Required Plugins**:
+   - Install plugins such as SonarQube Scanner, NodeJS, Docker, and Prometheus metrics under `Manage Jenkins → Plugins`.
 
-Install plugins such as SonarQube Scanner, NodeJS, Docker, and Prometheus metrics under Manage Jenkins → Plugins.
-Global Tool Configuration:
+3. **Global Tool Configuration**:
+   - Set up tools like JDK 17, SonarQube Scanner, NodeJS, and Docker under `Manage Jenkins → Global Tool Configuration`.
 
-Set up tools like JDK 17, SonarQube Scanner, NodeJS, and Docker under Manage Jenkins → Global Tool Configuration.
-Pipeline Overview
-Pipeline Stages
-Git Checkout: Clones the source code from GitHub.
-SonarQube Analysis: Performs static code analysis.
-Quality Gate: Ensures code quality standards.
-Install NPM Dependencies: Installs NodeJS packages.
-Trivy Security Scan: Scans the project for vulnerabilities.
-Docker Build: Builds a Docker image for the project.
-Push to AWS ECR: Tags and pushes the Docker image to ECR.
-Image Cleanup: Deletes images from the Jenkins server to save space.
-Running Jenkins Pipeline
-Create and run the build pipeline in Jenkins. The pipeline will build, analyze, and push the project Docker image to ECR. Create a Jenkins pipeline by adding the following script:
+## Pipeline Overview
+### Pipeline Stages
+1. **Git Checkout**: Clones the source code from GitHub.
+2. **SonarQube Analysis**: Performs static code analysis.
+3. **Quality Gate**: Ensures code quality standards.
+4. **Install NPM Dependencies**: Installs NodeJS packages.
+5. **Trivy Security Scan**: Scans the project for vulnerabilities.
+6. **Docker Build**: Builds a Docker image for the project.
+7. **Push to AWS ECR**: Tags and pushes the Docker image to ECR.
+8. **Image Cleanup**: Deletes images from the Jenkins server to save space.
 
-Build Pipeline
+### Running Jenkins Pipeline
+Create and run the build pipeline in Jenkins. The pipeline will build, analyze, and push the project Docker image to ECR.
+Create a Jenkins pipeline by adding the following script:
+
+### Build Pipeline
+
+```groovy
 pipeline {
     agent any
     
@@ -90,7 +104,7 @@ pipeline {
     stages {
         stage('1. Git Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/pandacloud1/DevopsProject2.git'
+                git branch: 'main', url: 'https://github.com/sudo-talon/Amazon-Prime-Clone.git'
             }
         }
         
@@ -181,11 +195,15 @@ pipeline {
         }
     }
 }
-Continuous Deployment with ArgoCD
-Create EKS Cluster: Use Terraform to create an EKS cluster and related resources.
-Deploy Amazon Prime Clone: Use ArgoCD to deploy the application using Kubernetes YAML files.
-Monitoring Setup: Install Prometheus and Grafana using Helm charts for monitoring the Kubernetes cluster.
-Deployment Pipeline
+```
+
+## Continuous Deployment with ArgoCD
+1. **Create EKS Cluster**: Use Terraform to create an EKS cluster and related resources.
+2. **Deploy Amazon Prime Clone**: Use ArgoCD to deploy the application using Kubernetes YAML files.
+3. **Monitoring Setup**: Install Prometheus and Grafana using Helm charts for monitoring the Kubernetes cluster.
+
+### Deployment Pipeline
+```groovy
 pipeline {
     agent any
 
@@ -246,10 +264,14 @@ pipeline {
 		
     }
 }
-Cleanup
-Run cleanup pipelines to delete the resources such as load balancers, services, and deployment files.
-Use terraform destroy to remove the EKS cluster and other infrastructure.
-Cleanup Pipeline
+```
+
+## Cleanup
+- Run cleanup pipelines to delete the resources such as load balancers, services, and deployment files.
+- Use `terraform destroy` to remove the EKS cluster and other infrastructure.
+
+### Cleanup Pipeline
+```groovy
 pipeline {
     agent any
 
@@ -321,5 +343,9 @@ pipeline {
 		
     }
 }
-Additional Information
-For further details, refer to the word document containing a complete write-up of the project. This project is inspired by pandacloud 
+```
+
+## Additional Information
+This project is inspired by Pandacloud Academy
+
+---
