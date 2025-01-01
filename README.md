@@ -301,8 +301,8 @@ pipeline {
                 script {
                     // Step 1: Delete services and deployments
                     sh 'kubectl delete svc kubernetes || true'
-                    sh 'kubectl delete deploy pandacloud-app || true'
-                    sh 'kubectl delete svc pandacloud-app || true'
+                    sh 'kubectl delete deploy taloncloud-app || true'
+                    sh 'kubectl delete svc taloncloud-app || true'
 
                     // Step 2: Delete ArgoCD installation and namespace
                     sh 'kubectl delete -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml || true'
